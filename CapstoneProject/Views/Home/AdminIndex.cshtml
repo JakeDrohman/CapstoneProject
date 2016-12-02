@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<div class="jumbotron">
+    <h1>Hello Administrator!</h1>
+    <p class="lead">You are logged in as an Administrator, which gives you access to all accounts as well as the ability to manage any courses or chatrooms</p>
+</div>
+@Html.ActionLink("Database","Connect","Courses")

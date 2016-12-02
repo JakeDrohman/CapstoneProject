@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CapstoneProject.Models;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Security;
+using System.Net;
 
 namespace CapstoneProject.Controllers
 {
@@ -27,7 +31,91 @@ namespace CapstoneProject.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult AssignRoles()
+        {
+            UserManager<ApplicationUser> userManager;
+            if (ViewBag.userManager == null)
+            {
+                userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                ViewBag.userManager = userManager;
+            }
+            else
+            {
+                userManager = ViewBag.userManager;
+            }
+            var users = db.Users;
+            List<AssignRolesViewModel> models = new List<AssignRolesViewModel>();
+            foreach (var user in users)
+            {
+                string roles="";
+                try
+                {
+                    var RolesList = userManager.GetRoles(user.Id);
+                    foreach(string role in RolesList) { roles += role + "\n"; }
+                }
+                catch
+                {
+                    roles = "No assigned role";
+                }
+                    var model = new AssignRolesViewModel()
+                    {
+                        User = user,
+                        Role = roles
+                    };
+                    models.Add(model);
+                
+            }
+            return View(models);
+        }
+        public ActionResult Set_Role(string id, string role)
+        {
+            if (id == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var roles = UserManager.GetRoles(id);
+            foreach(string roleToRemove in roles) { UserManager.RemoveFromRole(id, roleToRemove); }
+            UserManager.AddToRole(user.Id, role);
+            
+            db.SaveChanges();
+            return RedirectToAction("AssignRoles");
+        }
+        public ActionResult Sort(string searchString)
+        {
+            UserManager<ApplicationUser> userManager;
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var users = db.Users;
+            List<AssignRolesViewModel> models = new List<AssignRolesViewModel>();
+            foreach (var user in users)
+            {
+                string roles = "";
+                try
+                {
+                    var RolesList = userManager.GetRoles(user.Id);
+                    foreach (string role in RolesList) { roles += role + "\n"; }
+                }
+                catch
+                {
+                    roles = "No assigned role";
+                }
+                var model = new AssignRolesViewModel()
+                {
+                    User = user,
+                    Role = roles
+                };
+                if(model.User.UserName.Contains(searchString)|| model.User.Email.Contains(searchString)|| model.Role.Contains(searchString))
+                {
+                    models.Add(model);
+                }
+            }
+            return View("AssignRoles",models);
+        }
         public ApplicationSignInManager SignInManager
         {
             get

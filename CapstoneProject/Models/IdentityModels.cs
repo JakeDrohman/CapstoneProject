@@ -29,5 +29,17 @@ namespace CapstoneProject.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<CapstoneProject.Models.Course> Courses { get; set; }
+
+        public System.Data.Entity.DbSet<CapstoneProject.Models.CourseSubject> CourseSubjects { get; set; }
+
+        public System.Data.Entity.DbSet<CapstoneProject.Models.Appointment> Appointments { get; set; }
+
+        public System.Data.Entity.DbSet<CapstoneProject.Models.StudentInformation> StudentInformations { get; set; }
+
+        //public System.Data.Entity.DbSet<CapstoneProject.Models.ApplicationUser> ApplicationUsers { get; set; }
+
+        //public System.Data.Entity.DbSet<CapstoneProject.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

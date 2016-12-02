@@ -10,6 +10,18 @@ namespace CapstoneProject.Models
         public string Email { get; set; }
     }
 
+    public class AssignRolesViewModel
+    {
+        public string Role { get; set; }
+        public ApplicationUser User { get; set; }
+    }
+
+    public class StudentListViewModel
+    {
+        public ApplicationUser User { get; set; }
+        public StudentInformation Information { get; set; }
+    }
+
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }

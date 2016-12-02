@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CapstoneProject.Models.AssignRolesViewModel>
+@{
+    ViewBag.Title = "Assign Roles";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Role Manager</h2>
+<br>
+<div class="row">
+@using (Html.BeginForm("Sort", "Account", FormMethod.Post))
+{
+    <input type="text" class="form-control" placeholder="Search" id="searchString" name="searchString">
+    <input type="submit" value="Search">
+}
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Set Admin", "Set_Role", new { id = item.User.Id, role = "Admin" }) <br>
+                @Html.ActionLink("Set Advisor", "Set_Role", new { id = item.User.Id, role = "Advisor" }) <br>
+                @Html.ActionLink("Set Teacher", "Set_Role", new { id = item.User.Id, role = "Teacher" }) <br>
+                @Html.ActionLink("Set Student", "Set_Role", new { id = item.User.Id, role = "Student" })
+            </td>
+        </tr>
+
+    }
+
+</table>
