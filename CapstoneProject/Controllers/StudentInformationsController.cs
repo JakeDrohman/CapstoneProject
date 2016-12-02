@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapstoneProject.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CapstoneProject.Controllers
 {
@@ -17,8 +18,16 @@ namespace CapstoneProject.Controllers
         // GET: StudentInformations
         public ActionResult Index()
         {
-            var studentInformations = db.StudentInformations.Include(s => s.Student);
-            return View(studentInformations.ToList());
+            try
+            {
+                var studentInformations = db.StudentInformations.Include(s => s.Student);
+                return View(studentInformations.ToList());
+            }
+            catch
+            {
+                return RedirectToAction("Create");
+            }
+            
         }
 
         // GET: StudentInformations/Details/5
@@ -50,6 +59,7 @@ namespace CapstoneProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,StudentId,FirstName,LastName,AlternateFirstName,AlternateLastName,Street,City,State,Zipcode,AlternateStreet,AlternateCity,AlternateState,AlternateZipcode,EmailAddress,DateAdmitted,Track,GraduationDate,Graduated,Withdrawn,Dismissed,CreditsNeeded,CreditsCompleted")] StudentInformation studentInformation)
         {
+            studentInformation.StudentId= System.Web.HttpContext.Current.User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 db.StudentInformations.Add(studentInformation);

@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201612011944301_added student information.Designer.cs">
       <DependentUpon>201612011944301_added student information.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612021512440_test1.cs" />
+    <Compile Include="Migrations\201612021512440_test1.Designer.cs">
+      <DependentUpon>201612021512440_test1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -384,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612011944301_added student information.resx">
       <DependentUpon>201612011944301_added student information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612021512440_test1.resx">
+      <DependentUpon>201612021512440_test1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

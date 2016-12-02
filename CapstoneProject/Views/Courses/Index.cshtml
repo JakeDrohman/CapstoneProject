@@ -4,24 +4,20 @@
     ViewBag.Title = "Courses";
 }
 @{
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
 }
 
-<h2>Index</h2>
-@using (Html.BeginForm("Sort", "Account", FormMethod.Post))
+<h2>Courses</h2>
+@using (Html.BeginForm("Sort", "Courses", FormMethod.Post))
 {
     <input type="text" class="form-control" placeholder="Search" id="searchString" name="searchString">
     <input type="submit" value="Search">
 }
-@if (User.Identity.IsAuthenticated)
-{
-    if (User.IsInRole("Admin"))
-    {
+
         <p>
             @Html.ActionLink("Create New", "Create")
         </p>
-    }
-}
+
 
 <table class="table">
     <tr>

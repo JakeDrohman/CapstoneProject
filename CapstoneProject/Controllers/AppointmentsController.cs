@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CapstoneProject.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CapstoneProject.Controllers
 {
@@ -19,6 +20,12 @@ namespace CapstoneProject.Controllers
         public ActionResult Index()
         {
             var appointments = db.Appointments.Include(a => a.Advisor).Include(a => a.Student);
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)); ;
+            var roleList = userManager.GetRoles(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string role = "";
+            foreach (string roleItem in roleList) { role = roleItem; }
+            if (role == "Student") { RedirectToAction("GetStudentAppointments"); }
+            if (role == "Advisor") { RedirectToAction("GetAdvisorAppointments"); }
             return View(appointments.ToList());
         }
 
@@ -33,7 +40,7 @@ namespace CapstoneProject.Controllers
                     _appointments.Remove(item);
                 }
             }
-            return View("Index", _appointments);
+            return View("AdvisorIndex", _appointments);
         }
 
         public ActionResult GetStudentAppointments()
@@ -47,7 +54,7 @@ namespace CapstoneProject.Controllers
                     _appointments.Remove(item);
                 }
             }
-            return View("Index", _appointments);
+            return View("StudentIndex", _appointments);
         }
 
         // GET: Appointments/Details/5
@@ -72,6 +79,18 @@ namespace CapstoneProject.Controllers
             ViewBag.StudentId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
+        public ActionResult StudentCreate()
+        {
+            ViewBag.AdvisorId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.StudentId = new SelectList(db.Users, "Id", "Email");
+            return View();
+        }
+        public ActionResult AdvisorCreate()
+        {
+            ViewBag.AdvisorId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.StudentId = new SelectList(db.Users, "Id", "Email");
+            return View();
+        }
 
         // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -80,23 +99,96 @@ namespace CapstoneProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Date,ReasonForAppointment,StudentId,AdvisorId")] Appointment appointment)
         {
-            
+
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)); ;
+            var roleList = userManager.GetRoles(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string role = "";
+            foreach (string roleItem in roleList) { role = roleItem; }
             if (ModelState.IsValid)
             {
-                if (User.IsInRole("Student"))
-            {
-                appointment.StudentId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                if (role == "Student")
+                {
+                    appointment.StudentId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("StudentIndex");
+                }
+                else if (role == "Advisor")
+                {
+                    appointment.AdvisorId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("AdvisorIndex");
+                }
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("StudentIndex");
+                return RedirectToAction("Index");
             }
-            else if (User.IsInRole("Advisor"))
+
+            ViewBag.AdvisorId = new SelectList(db.Users, "Id", "Email", appointment.AdvisorId);
+            ViewBag.StudentId = new SelectList(db.Users, "Id", "Email", appointment.StudentId);
+            return View(appointment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdvisorCreate([Bind(Include = "Id,Date,ReasonForAppointment,StudentId,AdvisorId")] Appointment appointment)
+        {
+
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)); ;
+            var roleList = userManager.GetRoles(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string role = "";
+            foreach (string roleItem in roleList) { role = roleItem; }
+            if (ModelState.IsValid)
             {
-                appointment.AdvisorId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                if (role == "Student")
+                {
+                    appointment.StudentId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("StudentIndex");
+                }
+                else if (role == "Advisor")
+                {
+                    appointment.AdvisorId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("AdvisorIndex");
+                }
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("AdvisorIndex");
+                return RedirectToAction("Index");
             }
+
+            ViewBag.AdvisorId = new SelectList(db.Users, "Id", "Email", appointment.AdvisorId);
+            ViewBag.StudentId = new SelectList(db.Users, "Id", "Email", appointment.StudentId);
+            return View(appointment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult StudentCreate([Bind(Include = "Id,Date,ReasonForAppointment,StudentId,AdvisorId")] Appointment appointment)
+        {
+            UserManager<ApplicationUser> userManager=new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)); ;
+            var roleList=userManager.GetRoles(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string role="";
+            foreach(string roleItem in roleList) { role = roleItem; }
+            if (ModelState.IsValid)
+            {
+                if (role=="Student")
+                {
+                    appointment.StudentId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("StudentIndex");
+                }
+                else if (role=="Advisor")
+                {
+                    appointment.AdvisorId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("AdvisorIndex");
+                }
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

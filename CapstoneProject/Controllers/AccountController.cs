@@ -116,6 +116,33 @@ namespace CapstoneProject.Controllers
             }
             return View("AssignRoles",models);
         }
+
+        public ActionResult GetStudents()
+        {
+            var users = db.Users;
+            var information = db.StudentInformations;
+            UserManager<ApplicationUser> userManager;
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            List<StudentListViewModel> studentList = new List<StudentListViewModel>();
+            string roles = "";
+            foreach(var user in users)
+            {
+                var RolesList = userManager.GetRoles(user.Id);
+                foreach (string role in RolesList) { roles = role; }
+                if (roles=="Student")
+                {
+                    StudentInformation studentInfo=null;
+                    foreach(var info in information) { if (info.StudentId == user.Id) { studentInfo = info; } }
+                    var model = new StudentListViewModel()
+                    {
+                        User=user,
+                        Information=studentInfo
+                    };
+                    studentList.Add(model);
+                }
+            }
+            return View("StudentList",studentList);
+        }
         public ApplicationSignInManager SignInManager
         {
             get

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<CapstoneProject.Models.StudentListViewModel>
+
+@{
     Layout = "~/Views/Shared/_LayoutAdvisor.cshtml";
 }
 
@@ -11,6 +13,69 @@
         <th>
             @Html.DisplayNameFor(model => model.User.UserName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Zipcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateStreet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.AlternateZipcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.DateAdmitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Track)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.GraduationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Graduated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Withdrawn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.Dismissed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.CreditsNeeded)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Information.CreditsCompleted)
+        </th>
         <th></th>
     </tr>
 
@@ -22,6 +87,69 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Zipcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateStreet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.AlternateZipcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.DateAdmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Track)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.GraduationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Graduated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Withdrawn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.Dismissed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.CreditsNeeded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information.CreditsCompleted)
             </td>
         </tr>
 

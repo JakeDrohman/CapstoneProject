@@ -24,18 +24,20 @@ namespace CapstoneProject.Controllers
             return View(courses.ToList());
         }
 
+
         public ActionResult Sort(string searchString)
         {
             var courses = db.Courses.Include(c => c.Subject);
             List<Course> courseList = courses.ToList();
+            List<Course> finalList = new List<Course>();
             foreach(Course course in courseList)
             {
-                if (course.CourseName != searchString || course.Subject.Subject != searchString || !course.Credits.ToString().Equals(searchString))
+                if (course.CourseName == searchString || course.Subject.Subject == searchString || course.Credits.ToString().Equals(searchString))
                 {
-                    courseList.Remove(course);
+                    finalList.Add(course);
                 }
             }
-            return View("Index", courseList);
+            return View("Index", finalList);
         }
 
         // GET: Courses/Details/5
