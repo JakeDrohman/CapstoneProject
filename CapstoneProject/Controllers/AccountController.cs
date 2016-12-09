@@ -48,15 +48,15 @@ namespace CapstoneProject.Controllers
             List<AssignRolesViewModel> models = new List<AssignRolesViewModel>();
             foreach (var user in users)
             {
-                string roles="";
+                List<string> roles = new List<string>();
                 try
                 {
                     var RolesList = userManager.GetRoles(user.Id);
-                    foreach(string role in RolesList) { roles += role + "\n"; }
+                    foreach(string role in RolesList) { roles.Add(role); }
                 }
                 catch
                 {
-                    roles = "No assigned role";
+                    roles.Add("No assigned role");
                 }
                     var model = new AssignRolesViewModel()
                     {
@@ -79,13 +79,25 @@ namespace CapstoneProject.Controllers
             {
                 return HttpNotFound();
             }
-            var roles = UserManager.GetRoles(id);
-            foreach(string roleToRemove in roles) { UserManager.RemoveFromRole(id, roleToRemove); }
             UserManager.AddToRole(user.Id, role);
             
             db.SaveChanges();
             return RedirectToAction("AssignRoles");
         }
+
+        public ActionResult Remove_Role(string id, string role)
+        {
+            try
+            {
+                UserManager.RemoveFromRole(id, role);
+            }
+            catch
+            {
+                Console.WriteLine("Did not remove user with id {0} from role \"{1}\"",id,role);
+            }
+            return RedirectToAction("AssignRoles");
+        }
+
         public ActionResult Sort(string searchString)
         {
             UserManager<ApplicationUser> userManager;
@@ -94,15 +106,15 @@ namespace CapstoneProject.Controllers
             List<AssignRolesViewModel> models = new List<AssignRolesViewModel>();
             foreach (var user in users)
             {
-                string roles = "";
+                List<string> roles = new List<string>();
                 try
                 {
                     var RolesList = userManager.GetRoles(user.Id);
-                    foreach (string role in RolesList) { roles += role + "\n"; }
+                    foreach (string role in RolesList) { roles.Add(role); }
                 }
                 catch
                 {
-                    roles = "No assigned role";
+                    roles.Add("No assigned role");
                 }
                 var model = new AssignRolesViewModel()
                 {

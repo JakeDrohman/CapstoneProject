@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CapstoneProject.Models
@@ -12,7 +13,7 @@ namespace CapstoneProject.Models
 
     public class AssignRolesViewModel
     {
-        public string Role { get; set; }
+        public List<string> Role { get; set; }
         public ApplicationUser User { get; set; }
     }
 

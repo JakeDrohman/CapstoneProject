@@ -26,6 +26,7 @@
             @Html.DisplayNameFor(model => model.Role)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -38,13 +39,49 @@
                 @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role)
+                @foreach (var role in item.Role)
+                {
+                @role
+                    <br>
+                }
             </td>
             <td>
                 @Html.ActionLink("Set Admin", "Set_Role", new { id = item.User.Id, role = "Admin" }) <br>
                 @Html.ActionLink("Set Advisor", "Set_Role", new { id = item.User.Id, role = "Advisor" }) <br>
                 @Html.ActionLink("Set Teacher", "Set_Role", new { id = item.User.Id, role = "Teacher" }) <br>
                 @Html.ActionLink("Set Student", "Set_Role", new { id = item.User.Id, role = "Student" })
+            </td>
+            <td>
+                @{
+                    try
+                    {
+                        if (item.Role[0] == "Admin" || item.Role[1] == "Admin" || item.Role[2] == "Admin" || item.Role[3] == "Admin")
+                        {
+                            @Html.ActionLink("Remove From Role Admin", "Remove_Role", new { id = item.User.Id, role = "Admin" }); <br>}
+                    }
+                    catch { Console.WriteLine("Could not display remove role Admin"); }
+                    try
+                    {
+                        if (item.Role[0] == "Advisor" || item.Role[1] == "Advisor" || item.Role[2] == "Advisor" || item.Role[3] == "Advisor")
+                        {
+                            @Html.ActionLink("Remove From Role Advisor", "Remove_Role", new { id = item.User.Id, role = "Advisor" }); <br>}
+                    }
+                    catch { }
+                    try
+                    {
+                        if (item.Role[0] == "Teacher" || item.Role[1] == "Teacher" || item.Role[2] == "Teacher" || item.Role[3] == "Teacher")
+                        {
+                            @Html.ActionLink("Remove From Role Teacher", "Remove_Role", new { id = item.User.Id, role = "Teacher" }); <br>}
+                    }
+                    catch { }
+                    try
+                    {
+                        if (item.Role[0] == "Student" || item.Role[1] == "Student" || item.Role[2] == "Student" || item.Role[3] == "Student")
+                        {
+                            @Html.ActionLink("Remove From Role Student", "Remove_Role", new { id = item.User.Id, role = "Student" }); <br>}
+                    }
+                    catch { }
+                    }
             </td>
         </tr>
 
